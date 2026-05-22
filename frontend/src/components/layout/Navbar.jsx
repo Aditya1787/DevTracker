@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { GitHubContext } from '../../contexts/GitHubContext';
+import { GITHUB_OAUTH_URL } from '../../utils/constants';
 import { 
   Bell, 
   Search, 
@@ -33,15 +34,9 @@ export const Navbar = ({ isSidebarCollapsed, setIsSidebarCollapsed }) => {
     return 'Analytics';
   };
 
-  const getGithubAuthUrl = () => {
-    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID || 'Ov23ct4Fw8K4q8B0U2Gv'; // Fallback
-    const redirectUri = encodeURIComponent('http://localhost:5000/api/github/callback');
-    return `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo,user&redirect_uri=${redirectUri}`;
-  };
-
   return (
     <header className={`fixed top-0 right-0 z-20 flex items-center justify-between h-16 px-6 bg-slate-900/60 backdrop-blur-md border-b border-slate-800 transition-all duration-350 left-0 ${
-      isSidebarCollapsed ? 'md:left-20' : 'md:left-20 lg:left-64'
+      isSidebarCollapsed ? 'md:left-20' : 'md:left-64'
     }`}
     >
       {/* Page Title & Mobile Sidebar trigger */}
@@ -69,7 +64,7 @@ export const Navbar = ({ isSidebarCollapsed, setIsSidebarCollapsed }) => {
         {/* Onboarding Connect GitHub banner */}
         {user && !user.githubUsername ? (
           <a
-            href={getGithubAuthUrl()}
+            href={GITHUB_OAUTH_URL}
             className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-650 to-cyan-500 hover:from-indigo-550 hover:to-cyan-400 text-white shadow-lg shadow-indigo-500/10 transition-all scale-100 active:scale-95 border border-indigo-500/20"
           >
             <GithubIcon className="w-4 h-4" />

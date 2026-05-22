@@ -16,9 +16,15 @@ export const AuthProvider = ({ children }) => {
       if (storedToken) {
         try {
           const res = await getMe();
-          if (res.success) {
-            setUser(res.data);
+          console.log('loadUser (getMe) response:', res);
+          
+          const success = res && (res.success || res.status === 'success');
+          const userVal = res && (res.user || res.data?.user || res.data);
+          
+          if (success && userVal) {
+            setUser(userVal);
             setIsAuthenticated(true);
+            setIsLoading(false);
           } else {
             handleLogoutState();
           }
@@ -55,18 +61,25 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const res = await apiLogin(credentials);
-      if (res.success && res.token) {
-        localStorage.setItem('token', res.token);
-        if (res.data) {
-          localStorage.setItem('user', JSON.stringify(res.data));
-          setUser(res.data);
+      console.log('Login API Response:', res);
+      
+      const success = res && (res.success || res.status === 'success' || (res.data?.token ? true : false) || (res.token ? true : false));
+      const tokenVal = res && (res.token || res.data?.token || (typeof res.data === 'string' ? res.data : null));
+      const userVal = res && (res.user || res.data?.user || (res.data && !res.data.token ? res.data : null));
+      
+      if (success && tokenVal) {
+        localStorage.setItem('token', tokenVal);
+        if (userVal) {
+          localStorage.setItem('user', JSON.stringify(userVal));
+          setUser(userVal);
         }
-        setToken(res.token);
+        setToken(tokenVal);
         setIsAuthenticated(true);
+        setIsLoading(false);
         return { success: true };
       } else {
         setIsLoading(false);
-        return { success: false, message: res.message || 'Login failed' };
+        return { success: false, message: res?.message || 'Login failed' };
       }
     } catch (error) {
       setIsLoading(false);
@@ -81,18 +94,25 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const res = await apiSignup(userData);
-      if (res.success && res.token) {
-        localStorage.setItem('token', res.token);
-        if (res.data) {
-          localStorage.setItem('user', JSON.stringify(res.data));
-          setUser(res.data);
+      console.log('Signup API Response:', res);
+      
+      const success = res && (res.success || res.status === 'success' || (res.data?.token ? true : false) || (res.token ? true : false));
+      const tokenVal = res && (res.token || res.data?.token || (typeof res.data === 'string' ? res.data : null));
+      const userVal = res && (res.user || res.data?.user || (res.data && !res.data.token ? res.data : null));
+      
+      if (success && tokenVal) {
+        localStorage.setItem('token', tokenVal);
+        if (userVal) {
+          localStorage.setItem('user', JSON.stringify(userVal));
+          setUser(userVal);
         }
-        setToken(res.token);
+        setToken(tokenVal);
         setIsAuthenticated(true);
+        setIsLoading(false);
         return { success: true };
       } else {
         setIsLoading(false);
-        return { success: false, message: res.message || 'Registration failed' };
+        return { success: false, message: res?.message || 'Registration failed' };
       }
     } catch (error) {
       setIsLoading(false);

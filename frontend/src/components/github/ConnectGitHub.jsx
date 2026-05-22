@@ -3,14 +3,9 @@ import { Card } from '../common/Card';
 import { Button } from '../common/Button';
 import { Info, ShieldCheck, Zap } from 'lucide-react';
 import { GithubIcon } from '../common/GithubIcon';
+import { GITHUB_OAUTH_URL } from '../../utils/constants';
 
 export const ConnectGitHub = () => {
-  const getGithubAuthUrl = () => {
-    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID || 'Ov23ct4Fw8K4q8B0U2Gv'; // Fallback
-    const redirectUri = encodeURIComponent('http://localhost:5000/api/github/callback');
-    return `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo,user&redirect_uri=${redirectUri}`;
-  };
-
   return (
     <div className="flex-1 flex items-center justify-center p-6 select-none">
       <Card className="max-w-xl w-full p-8 md:p-10 text-center relative overflow-hidden flex flex-col items-center">
@@ -29,7 +24,7 @@ export const ConnectGitHub = () => {
           To begin tracking metrics, link your GitHub profile. DevTrackr will compile data from repositories.
         </p>
 
-        <a href={getGithubAuthUrl()} className="w-full sm:w-auto">
+        <a href={GITHUB_OAUTH_URL} className="w-full sm:w-auto">
           <Button size="lg" className="w-full sm:w-auto font-bold px-8" icon={GithubIcon}>
             Connect GitHub
           </Button>

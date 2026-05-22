@@ -183,3 +183,9 @@ Test the entire application pipeline to verify correct integration:
 ---
 > [!TIP]
 > If you make future production adjustments (e.g., deploying the backend to Render and the frontend to Vercel), remember to go back to **GitHub Developer Settings** and update the **Homepage URL** and **Authorization callback URL** to match your live production domains!
+
+
+
+
+
+mongodb+srv://adityakmishra:<db_password>@cluster0.8feplwy.mongodb.net/

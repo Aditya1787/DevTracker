@@ -70,11 +70,12 @@ app.get('/health', (req, res) => {
 
 // Global Error Handler Middleware
 app.use(errorHandler);
-
+console.log("Bhai chal jaa");
 // Start Server & Connect Database
 const startServer = async () => {
   // Connect database
-  await connectDB();
+  console.log("Trying to connect db")
+  await connectDB()
 
   // Initialize cron background tasks
   startSyncRepoDataJob();

@@ -37,6 +37,14 @@ export const DashboardLayout = () => {
       {/* Dynamic Grid Background Overlay */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#0f172a_1.2px,transparent_1.2px),linear-gradient(to_bottom,#0f172a_1.2px,transparent_1.2px)] bg-[size:5rem_5rem] opacity-35 pointer-events-none z-0" />
       
+      {/* Mobile Sidebar Backdrop Overlay */}
+      {!isSidebarCollapsed && (
+        <div
+          onClick={() => setIsSidebarCollapsed(true)}
+          className="md:hidden fixed inset-0 z-20 bg-slate-950/60 backdrop-blur-sm transition-opacity duration-350"
+        />
+      )}
+
       {/* Sidebar Navigation */}
       <Sidebar
         isCollapsed={isSidebarCollapsed}
@@ -46,7 +54,7 @@ export const DashboardLayout = () => {
       {/* Main Content Area */}
       <div
         className={`flex-1 flex flex-col min-h-screen z-10 transition-all duration-350 pl-0 pb-16 md:pb-0 ${
-          isSidebarCollapsed ? 'md:pl-20' : 'md:pl-20 lg:pl-64'
+          isSidebarCollapsed ? 'md:pl-20' : 'md:pl-64'
         }`}
       >
         {/* Top Navbar */}
