@@ -6,6 +6,9 @@ import { connectDB } from './config/db.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import authRoutes from './routes/auth.routes.js';
+import githubRoutes from './routes/github.routes.js';
+import { startSyncRepoDataJob } from './jobs/syncRepoData.job.js';
+import { startInactivityCheckJob } from './jobs/inactivityCheck.job.js';
 
 const app = express();
 
@@ -27,8 +30,9 @@ app.use(express.urlencoded({ extended: true }));
 // Apply rate limiter to all API endpoints
 app.use('/api', apiLimiter);
 
-// Mount authentication routes
+// Mount authentication and GitHub routes
 app.use('/api/auth', authRoutes);
+app.use('/api/github', githubRoutes);
 
 // Basic status route
 app.get('/health', (req, res) => {
@@ -47,6 +51,10 @@ app.use(errorHandler);
 const startServer = async () => {
   // Connect database
   await connectDB();
+
+  // Initialize cron background tasks
+  startSyncRepoDataJob();
+  startInactivityCheckJob();
 
   const PORT = env.PORT;
   app.listen(PORT, () => {
