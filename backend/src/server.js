@@ -7,8 +7,10 @@ import { apiLimiter } from './middleware/rateLimiter.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import authRoutes from './routes/auth.routes.js';
 import githubRoutes from './routes/github.routes.js';
+import analyticsRoutes from './routes/analytics.routes.js';
 import { startSyncRepoDataJob } from './jobs/syncRepoData.job.js';
 import { startInactivityCheckJob } from './jobs/inactivityCheck.job.js';
+
 
 const app = express();
 
@@ -30,9 +32,11 @@ app.use(express.urlencoded({ extended: true }));
 // Apply rate limiter to all API endpoints
 app.use('/api', apiLimiter);
 
-// Mount authentication and GitHub routes
+// Mount authentication, GitHub, and Analytics routes
 app.use('/api/auth', authRoutes);
 app.use('/api/github', githubRoutes);
+app.use('/api/analytics', analyticsRoutes);
+
 
 // Basic status route
 app.get('/health', (req, res) => {
