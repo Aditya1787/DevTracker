@@ -14,7 +14,7 @@ import * as githubService from '../services/github.service.js';
  */
 export const connectGitHub = async (req, res, next) => {
   try {
-    const { code } = req.body;
+    const { code, redirectUri } = req.body;
     if (!code) {
       return res.status(400).json({
         success: false,
@@ -29,7 +29,7 @@ export const connectGitHub = async (req, res, next) => {
         client_id: githubConfig.clientId,
         client_secret: githubConfig.clientSecret,
         code,
-        redirect_uri: githubConfig.callbackUrl
+        redirect_uri: redirectUri || githubConfig.callbackUrl
       },
       {
         headers: { Accept: 'application/json' }

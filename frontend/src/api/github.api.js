@@ -1,7 +1,8 @@
 import axiosInstance from '../utils/axiosInstance';
 
 export const connectGitHub = async (code) => {
-  const { data } = await axiosInstance.post('/github/connect', { code });
+  const redirectUri = window.location.origin + '/github/callback';
+  const { data } = await axiosInstance.post('/github/connect', { code, redirectUri });
   return data;
 };
 
