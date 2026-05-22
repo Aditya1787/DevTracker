@@ -8,8 +8,11 @@ import { errorHandler } from './middleware/errorHandler.js';
 import authRoutes from './routes/auth.routes.js';
 import githubRoutes from './routes/github.routes.js';
 import analyticsRoutes from './routes/analytics.routes.js';
+import aiRoutes from './routes/ai.routes.js';
+import reportRoutes from './routes/report.routes.js';
 import { startSyncRepoDataJob } from './jobs/syncRepoData.job.js';
 import { startInactivityCheckJob } from './jobs/inactivityCheck.job.js';
+
 
 
 const app = express();
@@ -32,10 +35,13 @@ app.use(express.urlencoded({ extended: true }));
 // Apply rate limiter to all API endpoints
 app.use('/api', apiLimiter);
 
-// Mount authentication, GitHub, and Analytics routes
+// Mount authentication, GitHub, Analytics, AI, and Report routes
 app.use('/api/auth', authRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/reports', reportRoutes);
+
 
 
 // Basic status route
