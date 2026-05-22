@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import mongoose from 'mongoose';
 import { env } from './config/env.js';
 import { connectDB } from './config/db.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
@@ -31,6 +32,19 @@ app.use(cors({
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Database connectivity check middleware
+app.use((req, res, next) => {
+  if (req.path === '/health') return next();
+  const state = mongoose.connection.readyState;
+  if (state !== 1 && state !== 2) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database connection is not established. Please check your MONGO_URI configuration in backend/.env and make sure your MongoDB server or MongoDB Atlas cluster is online and reachable.'
+    });
+  }
+  next();
+});
 
 // Apply rate limiter to all API endpoints
 app.use('/api', apiLimiter);
