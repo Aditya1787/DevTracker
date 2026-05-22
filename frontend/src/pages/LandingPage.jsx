@@ -12,7 +12,8 @@ import {
   Activity,
   Layers,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  FileText
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
 
