@@ -7,7 +7,11 @@ export const APP_NAME = 'DevTrackr';
 export const GITHUB_OAUTH_URL = `https://github.com/login/oauth/authorize?client_id=${
   import.meta.env.VITE_GITHUB_CLIENT_ID || 'dummy_github_client_id'
 }&redirect_uri=${
-  encodeURIComponent(window.location.origin + '/github/callback')
+  encodeURIComponent(
+    window.location.origin.includes('localhost')
+      ? 'http://localhost:5173/github/callback'
+      : window.location.origin + '/github/callback'
+  )
 }&scope=repo,user`;
 
 export const CHART_COLORS = {

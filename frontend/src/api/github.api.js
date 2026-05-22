@@ -1,7 +1,9 @@
 import axiosInstance from '../utils/axiosInstance';
 
 export const connectGitHub = async (code) => {
-  const redirectUri = window.location.origin + '/github/callback';
+  const redirectUri = window.location.origin.includes('localhost')
+    ? 'http://localhost:5173/github/callback'
+    : window.location.origin + '/github/callback';
   const { data } = await axiosInstance.post('/github/connect', { code, redirectUri });
   return data;
 };

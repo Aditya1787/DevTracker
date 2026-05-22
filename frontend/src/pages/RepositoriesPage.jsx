@@ -51,12 +51,12 @@ const RepositoriesPage = () => {
   };
 
   const handleAddRepo = async (ghRepo) => {
-    setAddingRepoName(ghRepo.fullName);
+    setAddingRepoName(ghRepo.full_name || ghRepo.fullName);
     showToast(`Adding ${ghRepo.name} and initiating data ingestion...`, 'info');
     const res = await addRepo({
       repoName: ghRepo.name,
       owner: ghRepo.owner?.login || ghRepo.owner,
-      fullName: ghRepo.fullName,
+      fullName: ghRepo.full_name || ghRepo.fullName,
       description: ghRepo.description || '',
       stars: ghRepo.stargazers_count || 0,
       forks: ghRepo.forks_count || 0,
@@ -161,12 +161,12 @@ const RepositoriesPage = () => {
           ) : githubRepos.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {githubRepos.map((ghRepo) => {
-                const isAlreadyTracked = repos.some((r) => r.fullName === ghRepo.fullName);
-                const isAdding = addingRepoName === ghRepo.fullName;
+                const isAlreadyTracked = repos.some((r) => r.fullName === (ghRepo.full_name || ghRepo.fullName));
+                const isAdding = addingRepoName === (ghRepo.full_name || ghRepo.fullName);
 
                 return (
                   <Card
-                    key={ghRepo.id || ghRepo.fullName}
+                    key={ghRepo.id || ghRepo.full_name || ghRepo.fullName}
                     className="p-5 border border-slate-850 hover:border-slate-800 bg-slate-900/40 relative flex flex-col justify-between"
                   >
                     <div className="space-y-3">
@@ -192,7 +192,7 @@ const RepositoriesPage = () => {
                       <div className="text-left">
                         <h4 className="text-sm font-bold text-slate-200 truncate">{ghRepo.name}</h4>
                         <p className="text-[10px] text-slate-500 font-mono truncate mt-0.5">
-                          {ghRepo.fullName}
+                          {ghRepo.full_name || ghRepo.fullName}
                         </p>
                         <p className="text-xs text-textMuted line-clamp-2 mt-2 leading-relaxed h-8">
                           {ghRepo.description || 'No description provided.'}

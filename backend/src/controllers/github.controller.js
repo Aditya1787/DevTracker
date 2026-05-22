@@ -124,6 +124,9 @@ export const addRepo = async (req, res, next) => {
       githubUrl
     } = req.body;
 
+    console.log('[DEBUG addRepo] req.body:', req.body);
+    console.log('[DEBUG addRepo] extracted:', { fullName, owner, repoName });
+
     if (!fullName || !owner || !repoName) {
       return res.status(400).json({
         success: false,
