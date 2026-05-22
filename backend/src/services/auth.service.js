@@ -77,7 +77,7 @@ export const authenticateUser = async (email, password) => {
  * @returns {Promise<Object>} User details (excluding password)
  */
 export const getUserById = async (userId) => {
-  const user = await User.findById(userId).select('-password');
+  const user = await User.findById(userId).select('-password').populate('repositories');
   if (!user) {
     const error = new Error('User not found');
     error.statusCode = 404;
