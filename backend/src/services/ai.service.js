@@ -1,4 +1,4 @@
-import anthropic from '../ai/openaiClient.js';
+import { genAI } from '../ai/geminiClient.js';
 import { buildAnalysisPrompt } from '../ai/promptBuilder.js';
 import { parseAIResponse } from '../ai/responseParser.js';
 import Repository from '../models/Repository.model.js';
@@ -8,7 +8,7 @@ import { env } from '../config/env.js';
 
 /**
  * Generate a programmatic fallback report based on database telemetry metrics
- * in case the Anthropic API key is missing or the external API call fails.
+ * in case the Gemini API key is missing or the external API call fails.
  */
 const generateFallbackReport = (repoData) => {
   const { repository, pullrequests, issues, contributors } = repoData;
@@ -97,37 +97,40 @@ export const generateReport = async (repoId, userId) => {
 
   let reportData;
 
-  // 3. Check if Anthropic API key is provided and is not a default/dummy key
-  const hasValidApiKey = env.ANTHROPIC_API_KEY && 
-                        env.ANTHROPIC_API_KEY !== 'dummy_api_key_for_scaffolding' && 
-                        !env.ANTHROPIC_API_KEY.startsWith('your_');
+  // 3. Check if Gemini API key is provided and is not a default/dummy key
+  const hasValidApiKey = env.GEMINI_API_KEY && 
+                        env.GEMINI_API_KEY !== 'dummy_api_key_for_scaffolding' && 
+                        !env.GEMINI_API_KEY.startsWith('your_');
 
   if (hasValidApiKey) {
     try {
       // Build the highly context-rich prompt
       const prompt = buildAnalysisPrompt(repoData);
 
-      // Call Anthropic Claude Messages API
-      const response = await anthropic.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 3000,
-        temperature: 0.2,
-        system: 'You are a highly experienced software engineering metrics analyser. Your output must strictly be formatted as raw, valid JSON matching the user prompt specification.',
-        messages: [
-          { role: 'user', content: prompt }
-        ]
+      // Call Google Gemini API using gemini-1.5-pro model
+      const model = genAI.getGenerativeModel({ 
+        model: 'gemini-1.5-pro',
+        systemInstruction: 'You are a highly experienced software engineering metrics analyser. Your output must strictly be formatted as raw, valid JSON matching the user prompt specification.'
       });
 
-      const responseText = response.content[0].text;
+      const result = await model.generateContent({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseMimeType: 'application/json',
+          temperature: 0.2
+        }
+      });
+
+      const responseText = result.response.text();
       
       // Clean and parse the resulting text
       reportData = parseAIResponse(responseText);
     } catch (err) {
-      console.warn('[AI Service] Anthropic API failed, compiling programmatic fallback report. Error:', err.message);
+      console.warn('[AI Service] Gemini API failed, compiling programmatic fallback report. Error:', err.message);
       reportData = generateFallbackReport(repoData);
     }
   } else {
-    console.info('[AI Service] Valid ANTHROPIC_API_KEY not found. Compiling programmatic fallback report.');
+    console.info('[AI Service] Valid GEMINI_API_KEY not found. Compiling programmatic fallback report.');
     reportData = generateFallbackReport(repoData);
   }
 
