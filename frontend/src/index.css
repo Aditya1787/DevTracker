@@ -46,34 +46,45 @@ html:not(.dark) body {
   color: #0f172a !important; /* slate-900 */
 }
 
-html:not(.dark) .bg-slate-900 {
+/* Core background overrides */
+html:not(.dark) .bg-slate-950,
+html:not(.dark) .bg-slate-900,
+html:not(.dark) .bg-slate-850,
+html:not(.dark) .bg-slate-800 {
   background-color: #ffffff !important;
 }
 
-html:not(.dark) .bg-slate-950 {
-  background-color: #f8fafc !important;
-}
-
-html:not(.dark) .bg-slate-950\/50,
-html:not(.dark) .bg-slate-950\/40,
-html:not(.dark) .bg-slate-950\/20,
-html:not(.dark) .bg-slate-950\/10 {
-  background-color: rgba(248, 250, 252, 0.75) !important;
-}
-
-html:not(.dark) .bg-slate-900\/60,
-html:not(.dark) .bg-slate-900\/40,
-html:not(.dark) .bg-slate-900\/10 {
+/* Specific background overrides with opacities */
+html:not(.dark) [class*="bg-slate-950/"],
+html:not(.dark) [class*="bg-slate-900/"],
+html:not(.dark) [class*="bg-slate-850/"],
+html:not(.dark) [class*="bg-slate-800/"] {
   background-color: rgba(255, 255, 255, 0.75) !important;
 }
 
+/* Hover background states */
+html:not(.dark) .hover\:bg-slate-800:hover,
+html:not(.dark) .hover\:bg-slate-800\/40:hover,
+html:not(.dark) .hover\:bg-slate-800\/65:hover,
+html:not(.dark) .hover\:bg-slate-850:hover,
+html:not(.dark) .hover\:bg-slate-750:hover,
+html:not(.dark) .hover\:bg-slate-900\/50:hover {
+  background-color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Border overrides */
 html:not(.dark) .border-slate-800,
 html:not(.dark) .border-slate-850,
-html:not(.dark) .border-slate-850\/80,
-html:not(.dark) .border-slate-850\/60 {
+html:not(.dark) .border-slate-750,
+html:not(.dark) .border-slate-700,
+html:not(.dark) [class*="border-slate-800/"],
+html:not(.dark) [class*="border-slate-850/"],
+html:not(.dark) [class*="border-slate-750/"],
+html:not(.dark) [class*="border-slate-700/"] {
   border-color: #cbd5e1 !important; /* slate-300 */
 }
 
+/* Text color overrides */
 html:not(.dark) .text-slate-100,
 html:not(.dark) .text-slate-200 {
   color: #0f172a !important; /* slate-900 */
@@ -86,15 +97,16 @@ html:not(.dark) .text-slate-450 {
   color: #334155 !important; /* slate-700 */
 }
 
+html:not(.dark) .text-slate-550,
 html:not(.dark) .text-slate-500 {
   color: #64748b !important; /* slate-500 */
 }
 
-html:not(.dark) .glass-card {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(226, 232, 240, 0.6) !important;
+html:not(.dark) .text-slate-600 {
+  color: #94a3b8 !important; /* slate-400 */
 }
 
+/* Premium scrollbars */
 html:not(.dark) ::-webkit-scrollbar-track {
   background: #f1f5f9 !important;
 }
@@ -102,6 +114,12 @@ html:not(.dark) ::-webkit-scrollbar-track {
 html:not(.dark) ::-webkit-scrollbar-thumb {
   background: #e2e8f0 !important;
   border: 1px solid #cbd5e1 !important;
+}
+
+/* Typography, details & glass overlays */
+html:not(.dark) .glass-card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(226, 232, 240, 0.6) !important;
 }
 
 html:not(.dark) .text-indigo-400 {
@@ -145,4 +163,5 @@ html:not(.dark) .text-textPrimary {
 html:not(.dark) .text-textMuted {
   color: #475569 !important; /* slate-600 */
 }
+
 

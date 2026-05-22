@@ -41,7 +41,7 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               to={item.path}
               className={({ isActive }) =>
                 `flex flex-col items-center justify-center gap-1 py-1 px-3 rounded-lg text-[10px] font-medium transition-all ${
-                  isActive ? 'text-indigo-400 font-bold' : 'text-slate-450 hover:text-slate-200'
+                  isActive ? 'text-indigo-400 font-bold' : 'text-slate-400 hover:text-slate-200'
                 }`
               }
             >

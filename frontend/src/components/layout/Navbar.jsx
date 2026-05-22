@@ -43,7 +43,10 @@ export const Navbar = ({ isSidebarCollapsed, setIsSidebarCollapsed }) => {
       <div className="flex items-center gap-4">
         <button
           onClick={() => setIsSidebarCollapsed(prev => !prev)}
-          className="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-850"
+          className={`p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-850 transition-colors md:hidden ${
+            isSidebarCollapsed ? 'flex' : 'hidden'
+          }`}
+          title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           <Menu className="w-5 h-5" />
         </button>

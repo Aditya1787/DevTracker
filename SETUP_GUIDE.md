@@ -71,7 +71,7 @@ To enable users to securely sign in, link their active developer sessions, and s
    * **Application name**: `DevTrackr`
    * **Homepage URL**: `http://localhost:5173` *(The default local Vite server)*
    * **Application description**: `Premium AI-powered engineering telemetry dashboard.`
-   * **Authorization callback URL**: `http://localhost:5000/api/github/callback` *(Crucial: This handles the code-exchange redirect to the backend Express server)*
+   * **Authorization callback URL**: `http://localhost:5173/github/callback` *(Crucial: This handles the code-exchange redirect to the frontend SPA route)*
 3. Click **Register application**.
 
 ### Step 2.3: Generate Client Credentials
@@ -125,7 +125,7 @@ GEMINI_API_KEY=AIzaSyAD81kIohLP1SLTNL-ShnOBqDUk1heqhDk
 # Paste your GitHub OAuth credentials
 GITHUB_CLIENT_ID=your_github_client_id
 GITHUB_CLIENT_SECRET=your_github_client_secret
-GITHUB_CALLBACK_URL=http://localhost:5000/api/github/callback
+GITHUB_CALLBACK_URL=http://localhost:5173/github/callback
 
 # Vite Frontend client URL
 FRONTEND_URL=http://localhost:5173
