@@ -354,26 +354,31 @@ git push -u origin main
 
 ---
 
-## Open Questions
+## User Review Required
 
-> [!NOTE]
-> These design decisions have been pre-resolved in favor of the prompt spec, but confirm if you want changes:
-> - **Demo mode**: Should the landing page work without auth (demo dashboard)? Currently plan is: "View Demo" → `/dashboard` which redirects to login if unauthenticated.
-> - **GitHub OAuth callback URL**: Plan uses `http://localhost:5000/api/github/callback` for dev. Change for production?
-> - **MongoDB hosting**: Plan assumes MongoDB Atlas (cloud). Local MongoDB also works — just change `MONGO_URI`.
-> - **Light mode**: ThemeContext has toggle but MVP is dark-only. OK to defer light mode?
+> [!IMPORTANT]
+> The next step is the deployment checklist and final Git synchronization.
+> * **Production Build**: Dry-run production compilation of the React Vite frontend completed successfully with `0` syntax or bundle errors.
+> * **Mobile & Tablet Collapses**: Sidebar collapsing is fully CSS/Tailwind driven—collapsing to bottom nav on mobile (`< 768px`) and to a compact icon-only navigation aside on tablet (`768px` to `1024px`) with central offsets computed dynamically.
+> * **Documented Configs**: Finalized detailed variable descriptions inside `backend/.env.example` and `frontend/.env.example` templates.
+> * **Google Gemini Verification**: Real-time server startup programmatically checks for `GEMINI_API_KEY` configuration.
 
 ---
 
 ## Verification Plan
 
-After all steps complete:
-1. ✅ `npm run dev` works in both `frontend/` and `backend/`
-2. ✅ Signup → Login → JWT persists across refresh
-3. ✅ GitHub OAuth connect flow completes
-4. ✅ Add a real repo → sync → data appears in MongoDB
-5. ✅ Dashboard shows live charts from synced data
-6. ✅ AI analysis generates a real Claude response
-7. ✅ PDF downloads correctly
-8. ✅ All pages are mobile-responsive
-9. ✅ `git push` succeeds with clean commit history
+### Completed Polish Checks
+1. ✅ **Page Transitions**: Framer Motion `PageWrapper` wraps all routes inside [AppRoutes.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/routes/AppRoutes.jsx).
+2. ✅ **Responsive Layouts**: Fixed inline styles are refactored into robust CSS classes in [DashboardLayout.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/layouts/DashboardLayout.jsx), [Navbar.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/layout/Navbar.jsx), [Sidebar.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/layout/Sidebar.jsx), and [RepoSelector.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/github/RepoSelector.jsx).
+3. ✅ **Charts Wrap**: Checked that [CommitBarChart.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/charts/CommitBarChart.jsx), [PRPieChart.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/charts/PRPieChart.jsx), [SprintVelocityChart.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/charts/SprintVelocityChart.jsx), [IssueLineChart.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/charts/IssueLineChart.jsx), and [ContributorRadarChart.jsx](file:///d:/whole%20thing/36_projects/DevTracker/frontend/src/components/charts/ContributorRadarChart.jsx) are wrapped inside dynamic `ResponsiveContainer` widgets.
+4. ✅ **Try/Catch Toasts**: Checked global error boundary try/catch scopes with `showToast()` triggers across all authentication, repositories connection, manual synchronization, and Gemini AI diagnostic triggers.
+5. ✅ **Environment Example Manifests**: final `.env.example` templates compiled with explanatory documentation comments.
+
+### GitHub Remote Sync Plan
+* **Execute remote push**:
+  ```bash
+  git add .
+  git commit -m "docs: README, env docs, final responsive polish"
+  git push origin main
+  ```
+

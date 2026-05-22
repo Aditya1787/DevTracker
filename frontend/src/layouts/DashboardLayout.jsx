@@ -45,12 +45,9 @@ export const DashboardLayout = () => {
 
       {/* Main Content Area */}
       <div
-        className="flex-1 flex flex-col min-h-screen z-10 transition-all duration-350"
-        style={{
-          paddingLeft: (typeof window !== 'undefined' && window.innerWidth < 768)
-            ? '0'
-            : (isSidebarCollapsed ? '5rem' : '16rem')
-        }}
+        className={`flex-1 flex flex-col min-h-screen z-10 transition-all duration-350 pl-0 pb-16 md:pb-0 ${
+          isSidebarCollapsed ? 'md:pl-20' : 'md:pl-20 lg:pl-64'
+        }`}
       >
         {/* Top Navbar */}
         <Navbar

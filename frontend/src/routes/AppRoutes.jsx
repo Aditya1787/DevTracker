@@ -22,6 +22,7 @@ import SettingsPage from '../pages/SettingsPage';
 
 // Common Components
 import Spinner from '../components/common/Spinner';
+import PageWrapper from '../components/layout/PageWrapper';
 
 // Protected Route HOC wrapper
 const ProtectedRoute = ({ children }) => {
@@ -66,10 +67,10 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         {/* Landing Page */}
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<PageWrapper><LandingPage /></PageWrapper>} />
 
         {/* Auth callback */}
-        <Route path="/github/callback" element={<GitHubCallback />} />
+        <Route path="/github/callback" element={<PageWrapper><GitHubCallback /></PageWrapper>} />
 
         {/* Public / Auth routes with centered layout */}
         <Route
@@ -79,9 +80,9 @@ const AppRoutes = () => {
             </AnonymousRoute>
           }
         >
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/login" element={<PageWrapper><LoginPage /></PageWrapper>} />
+          <Route path="/signup" element={<PageWrapper><SignupPage /></PageWrapper>} />
+          <Route path="/forgot-password" element={<PageWrapper><ForgotPasswordPage /></PageWrapper>} />
         </Route>
 
         {/* Protected Dashboard console routes */}
@@ -92,11 +93,11 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/repositories" element={<RepositoriesPage />} />
-          <Route path="/insights" element={<AIInsightsPage />} />
-          <Route path="/reports" element={<ReportsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/dashboard" element={<PageWrapper><DashboardPage /></PageWrapper>} />
+          <Route path="/repositories" element={<PageWrapper><RepositoriesPage /></PageWrapper>} />
+          <Route path="/insights" element={<PageWrapper><AIInsightsPage /></PageWrapper>} />
+          <Route path="/reports" element={<PageWrapper><ReportsPage /></PageWrapper>} />
+          <Route path="/settings" element={<PageWrapper><SettingsPage /></PageWrapper>} />
         </Route>
 
         {/* Catch-all Redirect */}

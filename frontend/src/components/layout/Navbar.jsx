@@ -40,12 +40,9 @@ export const Navbar = ({ isSidebarCollapsed, setIsSidebarCollapsed }) => {
   };
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-20 flex items-center justify-between h-16 px-6 bg-slate-900/60 backdrop-blur-md border-b border-slate-800 transition-all duration-350 md:pl-20 pl-6 lg:pl-64"
-      style={{
-        paddingLeft: typeof window !== 'undefined' && window.innerWidth >= 768 
-          ? isSidebarCollapsed ? '5rem' : '16rem'
-          : '1.5rem'
-      }}
+    <header className={`fixed top-0 right-0 z-20 flex items-center justify-between h-16 px-6 bg-slate-900/60 backdrop-blur-md border-b border-slate-800 transition-all duration-350 left-0 ${
+      isSidebarCollapsed ? 'md:left-20' : 'md:left-20 lg:left-64'
+    }`}
     >
       {/* Page Title & Mobile Sidebar trigger */}
       <div className="flex items-center gap-4">
