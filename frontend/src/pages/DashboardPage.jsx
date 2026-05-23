@@ -53,7 +53,7 @@ const DashboardPage = () => {
   };
 
   // If user hasn't linked GitHub yet
-  if (user && !user.githubToken) {
+  if (user && !user.githubUsername) {
     return <ConnectGitHub />;
   }
 

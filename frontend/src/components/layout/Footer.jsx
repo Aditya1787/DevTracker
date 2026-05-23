@@ -2,8 +2,8 @@ import React from 'react';
 
 export const Footer = () => {
   return (
-    <footer className="py-6 border-t border-slate-800 bg-slate-950/20 text-slate-500 text-xs text-center backdrop-blur-sm mt-auto">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer className="py-6 border-t border-slate-800 bg-slate-950/20 text-slate-500 text-xs backdrop-blur-sm mt-auto">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           &copy; {new Date().getFullYear()} <span className="font-semibold text-slate-400">DevTrackr</span>. All rights reserved.
         </div>

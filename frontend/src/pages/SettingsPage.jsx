@@ -176,7 +176,7 @@ const SettingsPage = () => {
           {activeTab === 'github' && (
             <Card title="GitHub Integrations" icon={GithubIcon}>
               <div className="space-y-6">
-                {user?.githubToken ? (
+                {user?.githubUsername ? (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 bg-slate-950/40 border border-slate-850 rounded-xl">
                       <div className="flex items-center gap-3">

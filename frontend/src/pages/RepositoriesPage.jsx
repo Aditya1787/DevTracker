@@ -36,12 +36,12 @@ const RepositoriesPage = () => {
   };
 
   useEffect(() => {
-    if (user && user.githubToken && activeTab === 'import' && githubRepos.length === 0) {
+    if (user && user.githubUsername && activeTab === 'import' && githubRepos.length === 0) {
       handleFetchGitHubRepos();
     }
   }, [user, activeTab]);
 
-  if (user && !user.githubToken) {
+  if (user && !user.githubUsername) {
     return <ConnectGitHub />;
   }
 

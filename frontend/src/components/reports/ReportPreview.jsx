@@ -113,19 +113,35 @@ const ReportPreview = ({ report, repoName }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - Summaries & Insights */}
         <div className="lg:col-span-2 space-y-6">
-          <Card title="Executive Summary" icon={Sparkles} className="h-full">
+          <Card className="p-6">
+            <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3 select-none">
+              <Sparkles className="w-5 h-5 text-indigo-400" />
+              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Executive Summary</h3>
+            </div>
             <div className="prose prose-invert max-w-none text-textMuted text-sm leading-relaxed whitespace-pre-line">
               {report.summary}
             </div>
           </Card>
 
-          <Card title="Sprint & Velocity Analysis" icon={TrendingUp}>
-            <div className="prose prose-invert max-w-none text-textMuted text-sm leading-relaxed whitespace-pre-line">
+          <Card className="p-6 border-indigo-500/20 bg-gradient-to-b from-slate-900/60 to-indigo-950/5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none" />
+            <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-3 select-none">
+              <TrendingUp className="w-5 h-5 text-indigo-400" />
+              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Sprint Cadence Analysis</h3>
+            </div>
+            <div className="text-[10px] uppercase font-extrabold tracking-wider text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 w-fit mb-4 select-none">
+              Audit cadence & delivery consistency
+            </div>
+            <div className="prose prose-invert max-w-none text-slate-300 text-sm leading-relaxed whitespace-pre-line font-medium">
               {report.sprintAnalysis}
             </div>
           </Card>
 
-          <Card title="Contributor Insights" icon={Award}>
+          <Card className="p-6">
+            <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3 select-none">
+              <Award className="w-5 h-5 text-indigo-400" />
+              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Contributor Insights</h3>
+            </div>
             <div className="prose prose-invert max-w-none text-textMuted text-sm leading-relaxed whitespace-pre-line">
               {report.contributorInsights}
             </div>
@@ -135,20 +151,27 @@ const ReportPreview = ({ report, repoName }) => {
         {/* Right column - Bottlenecks & Recommendations */}
         <div className="space-y-6">
           {/* Bottlenecks Card */}
-          <Card
-            title="Identified Bottlenecks"
-            icon={AlertTriangle}
-            className="border-rose-500/20 bg-gradient-to-b from-slate-900/60 to-rose-950/5"
-          >
+          <Card className="p-6 border-rose-500/30 bg-gradient-to-b from-slate-900/60 to-rose-950/10">
+            <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3 select-none">
+              <AlertTriangle className="w-5 h-5 text-rose-400" />
+              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Operational Bottlenecks Bulletin</h3>
+            </div>
             {report.bottlenecks && report.bottlenecks.length > 0 ? (
-              <ul className="space-y-3.5">
+              <div className="space-y-4">
                 {report.bottlenecks.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-sm text-textMuted">
-                    <span className="mt-1 flex-shrink-0 w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_#F43F5E]" />
-                    <span className="leading-relaxed">{item}</span>
-                  </li>
+                  <div key={index} className="bg-rose-950/10 border border-rose-900/20 rounded-xl p-3.5 flex items-start gap-3 shadow-md shadow-rose-950/5 transition-all hover:border-rose-800/30">
+                    <span className="mt-1.5 flex-shrink-0 w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_#F43F5E]" />
+                    <div className="space-y-1">
+                      <div className="text-[9px] uppercase font-extrabold tracking-widest text-rose-400">
+                        Friction Point {index + 1}
+                      </div>
+                      <p className="text-xs font-semibold leading-relaxed text-slate-200">
+                        {item}
+                      </p>
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <div className="flex items-center gap-2.5 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
                 <CheckCircle className="w-4 h-4 flex-shrink-0" />
@@ -158,22 +181,29 @@ const ReportPreview = ({ report, repoName }) => {
           </Card>
 
           {/* Recommendations Card */}
-          <Card
-            title="Strategic Recommendations"
-            icon={CheckCircle}
-            className="border-indigo-500/20 bg-gradient-to-b from-slate-900/60 to-indigo-950/5"
-          >
+          <Card className="p-6 border-emerald-500/20 bg-gradient-to-b from-slate-900/60 to-emerald-950/5">
+            <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3 select-none">
+              <CheckCircle className="w-5 h-5 text-emerald-400" />
+              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Actionable Engineering Recommendations</h3>
+            </div>
             {report.recommendations && report.recommendations.length > 0 ? (
-              <ul className="space-y-3.5">
+              <div className="space-y-4">
                 {report.recommendations.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-sm text-textMuted">
-                    <div className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-md bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-bold">
+                  <div key={index} className="bg-slate-950/40 border border-slate-850 hover:border-emerald-500/20 transition-all duration-300 rounded-xl p-3.5 flex items-start gap-3.5">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-black shadow-[0_0_8px_rgba(16,185,129,0.15)]">
                       {index + 1}
                     </div>
-                    <span className="leading-relaxed">{item}</span>
-                  </li>
+                    <div className="space-y-1">
+                      <div className="text-[9px] uppercase font-extrabold tracking-widest text-emerald-400">
+                        Strategy Plan
+                      </div>
+                      <p className="text-xs font-semibold leading-relaxed text-slate-350">
+                        {item}
+                      </p>
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p className="text-textMuted text-sm">No new recommendations needed for this iteration cycle.</p>
             )}

@@ -31,7 +31,7 @@ const AIInsightsPage = () => {
     }
   };
 
-  if (user && !user.githubToken) {
+  if (user && !user.githubUsername) {
     return <ConnectGitHub />;
   }
 

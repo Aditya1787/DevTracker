@@ -15,7 +15,7 @@ const ReportsPage = () => {
   const { selectedRepo, repos, isLoading: isRepoLoading } = useContext(GitHubContext);
   const { report, isLoading: isReportLoading, isAnalyzing, refetch } = useAIReport();
 
-  if (user && !user.githubToken) {
+  if (user && !user.githubUsername) {
     return <ConnectGitHub />;
   }
 
