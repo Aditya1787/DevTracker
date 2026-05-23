@@ -80,6 +80,29 @@ export const connectGitHub = async (req, res, next) => {
 };
 
 /**
+ * @desc    Disconnect GitHub account and wipe credentials
+ * @route   POST /api/github/disconnect
+ * @access  Private
+ */
+export const disconnectGitHub = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.userId, {
+      githubId: null,
+      githubToken: null,
+      githubUsername: null,
+      githubAvatar: null
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'GitHub integration disconnected successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @desc    Retrieve repository list from GitHub for connected account
  * @route   GET /api/github/repos
  * @access  Private
@@ -101,6 +124,26 @@ export const getRepos = async (req, res, next) => {
       data: { repos }
     });
   } catch (error) {
+    // If the token is invalid (401 Bad Credentials), automatically clear it to prevent the user from being stuck
+    const isBadCredentials = error.status === 401 || (error.message && error.message.toLowerCase().includes('bad credentials'));
+    if (isBadCredentials) {
+      console.warn(`[GitHub Auth Warning]: Token is invalid for user ${req.user.userId}. Clearing credentials in DB...`);
+      try {
+        await User.findByIdAndUpdate(req.user.userId, {
+          githubToken: null,
+          githubId: null,
+          githubUsername: null,
+          githubAvatar: null
+        });
+      } catch (dbErr) {
+        console.error('[GitHub Auth Error]: Failed to auto-clear invalid token from database:', dbErr);
+      }
+      
+      return res.status(401).json({
+        success: false,
+        message: 'GitHub token has expired or has been revoked. Please reconnect your account.'
+      });
+    }
     next(error);
   }
 };

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
-import { addRepository, syncRepository, fetchGitHubRepos as apiFetchGitHubRepos } from '../api/github.api';
+import { addRepository, syncRepository, fetchGitHubRepos as apiFetchGitHubRepos, disconnectGitHub as apiDisconnectGitHub } from '../api/github.api';
 import { getMe } from '../api/auth.api';
 
 export const GitHubContext = createContext();
@@ -143,10 +143,47 @@ export const GitHubProvider = ({ children }) => {
       return { success: false, message: res.message || 'Failed to load GitHub repositories' };
     } catch (err) {
       const errMsg = err.response?.data?.message || 'Failed to load GitHub repositories. Ensure your account is connected.';
+      
+      // Auto-clear invalid token if 401 Unauthorized is returned
+      if (err.response?.status === 401) {
+        setUser(prev => prev ? {
+          ...prev,
+          githubToken: null,
+          githubUsername: null,
+          githubAvatar: null
+        } : null);
+      }
+      
       setError(errMsg);
       return { success: false, message: errMsg };
     } finally {
       setIsGitHubReposLoading(false);
+    }
+  };
+
+  const disconnectGitHub = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await apiDisconnectGitHub();
+      if (res.success) {
+        setUser(prev => prev ? {
+          ...prev,
+          githubToken: null,
+          githubUsername: null,
+          githubAvatar: null
+        } : null);
+        setGithubRepos([]);
+        setSelectedRepo(null);
+        return { success: true };
+      }
+      return { success: false, message: res.message || 'Failed to disconnect GitHub' };
+    } catch (err) {
+      const errMsg = err.response?.data?.message || 'Failed to disconnect GitHub';
+      setError(errMsg);
+      return { success: false, message: errMsg };
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -163,7 +200,8 @@ export const GitHubProvider = ({ children }) => {
         selectRepo,
         addRepo,
         syncRepo,
-        fetchGitHubRepos: fetchGitHubReposList
+        fetchGitHubRepos: fetchGitHubReposList,
+        disconnectGitHub
       }}
     >
       {children}

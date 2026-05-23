@@ -1,4 +1,6 @@
 import Repository from '../models/Repository.model.js';
+import Commit from '../models/Commit.model.js';
+import PullRequest from '../models/PullRequest.model.js';
 import * as analyticsService from '../services/analytics.service.js';
 
 /**
@@ -137,11 +139,13 @@ export const getOverview = async (req, res, next) => {
     }
 
     // Load all analytics in parallel to minimize latency
-    const [commits, pullrequests, issues, contributors] = await Promise.all([
+    const [commits, pullrequests, issues, contributors, rawCommits, rawPRs] = await Promise.all([
       analyticsService.getCommitAnalytics(repoId),
       analyticsService.getPRAnalytics(repoId),
       analyticsService.getIssueAnalytics(repoId),
-      analyticsService.getContributorAnalytics(repoId)
+      analyticsService.getContributorAnalytics(repoId),
+      Commit.find({ repoId }).sort({ commitDate: -1 }).limit(100),
+      PullRequest.find({ repoId }).sort({ createdAt: -1 }).limit(100)
     ]);
 
     res.status(200).json({
@@ -163,7 +167,9 @@ export const getOverview = async (req, res, next) => {
         commits,
         pullrequests,
         issues,
-        contributors
+        contributors,
+        rawCommits,
+        rawPRs
       }
     });
   } catch (error) {

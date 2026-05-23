@@ -8,6 +8,7 @@ const router = Router();
 router.use(protect);
 
 router.post('/connect', githubController.connectGitHub);
+router.post('/disconnect', githubController.disconnectGitHub);
 router.get('/repos', githubController.getRepos);
 router.post('/add-repo', githubController.addRepo);
 router.post('/sync/:repoId', githubController.syncRepo);

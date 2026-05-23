@@ -3,6 +3,7 @@ import { User, Shield, Sliders, Moon, Sun, Key, Save, AlertCircle, RefreshCw } f
 import { GithubIcon } from '../components/common/GithubIcon';
 import { AuthContext } from '../contexts/AuthContext';
 import { ThemeContext } from '../contexts/ThemeContext';
+import { GitHubContext } from '../contexts/GitHubContext';
 import { useToast } from '../hooks/useToast';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
@@ -11,6 +12,7 @@ import Spinner from '../components/common/Spinner';
 const SettingsPage = () => {
   const { user, logout } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { disconnectGitHub, isLoading: isGitHubDisconnecting } = useContext(GitHubContext);
   const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'github' | 'security' | 'preferences'
 
@@ -55,13 +57,14 @@ const SettingsPage = () => {
     }, 1200);
   };
 
-  const handleDisconnectGitHub = () => {
-    showToast('GitHub credentials removed from workspace session', 'info');
-    // Simulated disconnect for demo
-    setTimeout(() => {
-      logout();
-      showToast('Session logged out to apply token removals.', 'success');
-    }, 1500);
+  const handleDisconnectGitHub = async () => {
+    showToast('Disconnecting GitHub credentials from database...', 'info');
+    const res = await disconnectGitHub();
+    if (res.success) {
+      showToast('GitHub account disconnected successfully!', 'success');
+    } else {
+      showToast(res.message || 'Failed to disconnect GitHub', 'error');
+    }
   };
 
   return (
@@ -211,13 +214,14 @@ const SettingsPage = () => {
                       <p className="text-xs text-rose-350/80 leading-relaxed">
                         Disconnecting credentials will immediately halt developer telemetry indexes and lock your dashboards.
                       </p>
-                      <Button
+                       <Button
                         variant="gradient"
                         size="xs"
                         onClick={handleDisconnectGitHub}
+                        disabled={isGitHubDisconnecting}
                         className="bg-gradient-to-r from-rose-600 to-red-600 text-white font-bold"
                       >
-                        Disconnect GitHub Scope
+                        {isGitHubDisconnecting ? 'Disconnecting...' : 'Disconnect GitHub Scope'}
                       </Button>
                     </div>
                   </div>

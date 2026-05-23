@@ -5,11 +5,13 @@ import { Button } from '../common/Button';
 import { Star, GitFork, RefreshCw, BarChart2, Calendar, Lock, Globe } from 'lucide-react';
 import { GitHubContext } from '../../contexts/GitHubContext';
 import { useToast } from '../../hooks/useToast';
+import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../utils/formatDate';
 
 export const RepoCard = ({ repo }) => {
   const { syncRepo, selectRepo } = useContext(GitHubContext);
   const { showToast } = useToast();
+  const navigate = useNavigate();
   const [isSyncing, setIsSyncing] = useState(false);
 
   const handleSync = async (e) => {
@@ -100,7 +102,10 @@ export const RepoCard = ({ repo }) => {
             variant="outline"
             className="rounded-xl"
             icon={BarChart2}
-            onClick={() => selectRepo(repo)}
+            onClick={() => {
+              selectRepo(repo);
+              navigate('/');
+            }}
           >
             View
           </Button>

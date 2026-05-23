@@ -28,9 +28,16 @@ const RepositoriesPage = () => {
   const [syncingRepoId, setSyncingRepoId] = useState(null);
   const [addingRepoName, setAddingRepoName] = useState(null);
 
+  const handleFetchGitHubRepos = async () => {
+    const res = await fetchGitHubRepos();
+    if (res && !res.success) {
+      showToast(res.message || 'Failed to retrieve GitHub repositories', 'error');
+    }
+  };
+
   useEffect(() => {
     if (user && user.githubToken && activeTab === 'import' && githubRepos.length === 0) {
-      fetchGitHubRepos();
+      handleFetchGitHubRepos();
     }
   }, [user, activeTab]);
 
@@ -145,7 +152,7 @@ const RepositoriesPage = () => {
             <Button
               variant="outline"
               size="xs"
-              onClick={fetchGitHubRepos}
+              onClick={handleFetchGitHubRepos}
               disabled={isGitHubReposLoading}
               className="flex items-center gap-1.5 text-[10px] border-slate-800 text-slate-400 hover:bg-slate-900/50"
             >

@@ -91,13 +91,13 @@ const DashboardPage = () => {
   const isPageLoading = isAnalyticsLoading || isRepoLoading;
 
   // Compute stat highlights safely
-  const commitsCount = analytics?.commits?.reduce((sum, item) => sum + item.count, 0) || 0;
+  const commitsCount = analytics?.commits?.daily?.reduce((sum, item) => sum + item.count, 0) || 0;
   const prsOverview = analytics?.pullrequests || { open: 0, closed: 0, merged: 0, total: 0, avgMergeTime: 0, mergeRate: 0 };
   const issuesOverview = analytics?.issues || { open: 0, closed: 0, total: 0, avgResolutionTime: 0 };
   const contributorsList = analytics?.contributors || [];
 
   // Group commits by weekday or similar for bar charts, otherwise use standard formatting
-  const commitChartData = analytics?.commits?.slice(0, 14) || []; 
+  const commitChartData = analytics?.commits?.daily || []; 
   // Map weekly velocities or formats
   const sprintData = [
     { name: 'Sprint 1', commits: Math.round(commitsCount * 0.15), issues: Math.round(issuesOverview.closed * 0.15) },

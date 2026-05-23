@@ -51,7 +51,7 @@ export const getRepoCommits = async (token, owner, repo, since) => {
     // To fetch commit details (additions/deletions), we first list commits,
     // then fetch individual details for the top commits. To prevent severe rate-limiting
     // and keep performance high, we'll fetch up to 100 commits and details for them.
-    const { data: commitHeaders } = await octokit.commits.list({
+    const { data: commitHeaders } = await octokit.repos.listCommits({
       owner,
       repo,
       since,
@@ -62,7 +62,7 @@ export const getRepoCommits = async (token, owner, repo, since) => {
       commitHeaders.map(async (c) => {
         try {
           // Fetch detailed commit to get additions/deletions stats
-          const { data: fullCommit } = await octokit.commits.get({
+          const { data: fullCommit } = await octokit.repos.getCommit({
             owner,
             repo,
             ref: c.sha

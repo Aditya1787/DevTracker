@@ -22,3 +22,8 @@ export const syncRepository = async (repoId) => {
   const { data } = await axiosInstance.post(`/github/sync/${repoId}`);
   return data;
 };
+
+export const disconnectGitHub = async () => {
+  const { data } = await axiosInstance.post('/github/disconnect');
+  return data;
+};
