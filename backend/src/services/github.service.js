@@ -34,16 +34,16 @@ export const getUserRepos = async (token) => {
  * @param {string} token - GitHub Access Token
  * @param {string} owner - Repository owner
  * @param {string} repo - Repository name
- * @param {string} [since] - ISO date string to query from (defaults to 90 days ago)
+ * @param {string} [since] - ISO date string to query from (defaults to 180 days ago)
  * @returns {Promise<Array>} List of commits
  */
 export const getRepoCommits = async (token, owner, repo, since) => {
   const octokit = buildOctokit(token);
   
-  // Default query window to 90 days ago if "since" is not provided
+  // Default query window to 180 days ago if "since" is not provided
   if (!since) {
     const date = new Date();
-    date.setDate(date.getDate() - 90);
+    date.setDate(date.getDate() - 180);
     since = date.toISOString();
   }
 
