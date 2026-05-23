@@ -13,15 +13,17 @@ export const CommitBarChart = ({ data = [], isLoading = false }) => {
   }
 
   // Pre-process data: ensure it has at least some fallback display if empty
-  const chartData = data.length > 0 ? data : [
-    { name: 'Mon', count: 0 },
-    { name: 'Tue', count: 0 },
-    { name: 'Wed', count: 0 },
-    { name: 'Thu', count: 0 },
-    { name: 'Fri', count: 0 },
-    { name: 'Sat', count: 0 },
-    { name: 'Sun', count: 0 }
-  ];
+  const chartData = data.length > 0 
+    ? data.map(item => ({ ...item, date: item.date || item._id }))
+    : [
+        { date: 'Mon', count: 0 },
+        { date: 'Tue', count: 0 },
+        { date: 'Wed', count: 0 },
+        { date: 'Thu', count: 0 },
+        { date: 'Fri', count: 0 },
+        { date: 'Sat', count: 0 },
+        { date: 'Sun', count: 0 }
+      ];
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -55,7 +57,7 @@ export const CommitBarChart = ({ data = [], isLoading = false }) => {
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" opacity={0.3} />
             <XAxis 
-              dataKey="_id" 
+              dataKey="date" 
               stroke="#64748b" 
               fontSize={10} 
               tickLine={false} 

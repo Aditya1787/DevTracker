@@ -36,7 +36,21 @@ const ExportButton = ({ repoId, repoName }) => {
       showToast('PDF report downloaded successfully!', 'success');
     } catch (error) {
       console.error('Error exporting PDF:', error);
-      showToast(error.response?.data?.message || 'Failed to export PDF report. Please try again.', 'error');
+      let errorMessage = 'Failed to export PDF report. Please try again.';
+      if (error.response?.data instanceof Blob) {
+        try {
+          const text = await error.response.data.text();
+          const parsed = JSON.parse(text);
+          if (parsed && parsed.message) {
+            errorMessage = parsed.message;
+          }
+        } catch (e) {
+          // ignore
+        }
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      showToast(errorMessage, 'error');
     } finally {
       setIsDownloading(false);
     }

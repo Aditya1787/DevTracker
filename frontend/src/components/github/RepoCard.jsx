@@ -104,7 +104,7 @@ export const RepoCard = ({ repo }) => {
             icon={BarChart2}
             onClick={() => {
               selectRepo(repo);
-              navigate('/');
+              navigate('/dashboard');
             }}
           >
             View

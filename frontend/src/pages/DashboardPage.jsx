@@ -91,7 +91,9 @@ const DashboardPage = () => {
   const isPageLoading = isAnalyticsLoading || isRepoLoading;
 
   // Compute stat highlights safely
-  const commitsCount = analytics?.commits?.daily?.reduce((sum, item) => sum + item.count, 0) || 0;
+  const commitsCount = typeof analytics?.commits?.total === 'number'
+    ? analytics.commits.total
+    : (analytics?.commits?.daily?.reduce((sum, item) => sum + item.count, 0) || 0);
   const prsOverview = analytics?.pullrequests || { open: 0, closed: 0, merged: 0, total: 0, avgMergeTime: 0, mergeRate: 0 };
   const issuesOverview = analytics?.issues || { open: 0, closed: 0, total: 0, avgResolutionTime: 0 };
   const contributorsList = analytics?.contributors || [];
@@ -105,6 +107,15 @@ const DashboardPage = () => {
     { name: 'Sprint 3', commits: Math.round(commitsCount * 0.35), issues: Math.round(issuesOverview.closed * 0.35) },
     { name: 'Sprint 4', commits: Math.round(commitsCount * 0.25), issues: Math.round(issuesOverview.closed * 0.25) }
   ];
+
+  const scoreboardStats = {
+    totalCommits: commitsCount,
+    prMergeRate: `${prsOverview.mergeRate || 0}%`,
+    avgPrMergeTime: prsOverview.avgMergeTimeHours ? `${prsOverview.avgMergeTimeHours}h` : 'N/A',
+    issueResolutionRate: issuesOverview.total > 0 
+      ? `${Math.round((issuesOverview.closed / issuesOverview.total) * 100)}%` 
+      : '0%'
+  };
 
   return (
     <div className="space-y-6">
@@ -220,10 +231,7 @@ const DashboardPage = () => {
         </div>
         <div className="flex flex-col justify-between gap-6">
           <SprintSummaryCard
-            activeSprintName="Sprint 4"
-            completedTasks={issuesOverview.closed}
-            pendingTasks={issuesOverview.open}
-            velocityIndex={report?.productivityScore || 65}
+            stats={scoreboardStats}
             isLoading={isPageLoading}
           />
         </div>

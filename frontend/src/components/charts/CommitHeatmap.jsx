@@ -6,11 +6,25 @@ export const CommitHeatmap = ({ commits = [], isLoading = false }) => {
   const contributionGrid = useMemo(() => {
     // Generate dates for the last 12 weeks (84 days)
     const grid = [];
-    const now = new Date();
     
-    // Set to 84 days ago
-    const startDate = new Date();
-    startDate.setDate(now.getDate() - 83);
+    // Find the latest commit date to center the calendar dynamically if all commits are older than 12 weeks
+    let referenceDate = new Date();
+    if (commits.length > 0) {
+      const dates = commits
+        .filter(c => c.commitDate)
+        .map(c => new Date(c.commitDate).getTime());
+      if (dates.length > 0) {
+        const maxDate = Math.max(...dates);
+        const isLatestCommitOlderThan12Weeks = (Date.now() - maxDate) > 84 * 24 * 60 * 60 * 1000;
+        if (isLatestCommitOlderThan12Weeks) {
+          referenceDate = new Date(maxDate);
+        }
+      }
+    }
+    
+    // Set to 84 days ago relative to referenceDate
+    const startDate = new Date(referenceDate);
+    startDate.setDate(referenceDate.getDate() - 83);
 
     // Group commits by YYYY-MM-DD
     const commitCounts = {};
@@ -53,11 +67,11 @@ export const CommitHeatmap = ({ commits = [], isLoading = false }) => {
 
   // Get color state based on commit count
   const getShadingClass = (count) => {
-    if (count === 0) return 'bg-slate-900 border-slate-950/20';
-    if (count <= 2) return 'bg-indigo-950 border-indigo-900/30 text-indigo-400';
-    if (count <= 5) return 'bg-indigo-800/80 border-indigo-700/30';
-    if (count <= 9) return 'bg-indigo-650';
-    return 'bg-cyan-400 shadow-md shadow-cyan-400/20 border-cyan-300';
+    if (count === 0) return 'bg-slate-800/45 border-slate-700/30';
+    if (count <= 2) return 'bg-indigo-950 border-indigo-900/40 text-indigo-300';
+    if (count <= 5) return 'bg-indigo-850/90 border-indigo-700/40';
+    if (count <= 9) return 'bg-indigo-600 border-indigo-500/40';
+    return 'bg-cyan-400 shadow-lg shadow-cyan-400/20 border-cyan-300';
   };
 
   return (

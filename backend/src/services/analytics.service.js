@@ -82,7 +82,10 @@ export const getCommitAnalytics = async (repoId) => {
     { $sort: { _id: 1 } }
   ]);
 
+  const total = await Commit.countDocuments({ repoId: repositoryId });
+
   return {
+    total,
     daily: dailyStats.map(d => ({
       date: d._id,
       count: d.count,

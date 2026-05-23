@@ -70,7 +70,7 @@ export const getRepoCommits = async (token, owner, repo, since) => {
           
           return {
             sha: fullCommit.sha,
-            contributor: fullCommit.commit.author?.name || fullCommit.author?.login || 'Unknown',
+            contributor: fullCommit.author?.login || fullCommit.commit.author?.name || 'Unknown',
             contributorAvatar: fullCommit.author?.avatar_url || '',
             message: fullCommit.commit.message,
             commitDate: fullCommit.commit.author?.date || new Date().toISOString(),
@@ -82,7 +82,7 @@ export const getRepoCommits = async (token, owner, repo, since) => {
           // Fallback to basic header if details fetch fails
           return {
             sha: c.sha,
-            contributor: c.commit.author?.name || c.author?.login || 'Unknown',
+            contributor: c.author?.login || c.commit.author?.name || 'Unknown',
             contributorAvatar: c.author?.avatar_url || '',
             message: c.commit.message,
             commitDate: c.commit.author?.date || new Date().toISOString(),

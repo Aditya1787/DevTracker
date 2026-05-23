@@ -96,7 +96,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
      .text('Repository Overview', 50, doc.y);
 
   // Horizontal divider
-  doc.moveTo(50, doc.y + 4).lineTo(545, doc.y + 4).strokeColor(colors.primary).strokeWidth(1.5).stroke();
+  doc.moveTo(50, doc.y + 4).lineTo(545, doc.y + 4).strokeColor(colors.primary).lineWidth(1.5).stroke();
   doc.y += 12;
 
   // Metadata Grid Layout
@@ -129,7 +129,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
   
   // Left: AI Productivity Score Box
   doc.rect(50, bannerY, 150, 90).fill(colors.bgLight);
-  doc.rect(50, bannerY, 150, 90).strokeColor(colors.border).strokeWidth(1).stroke();
+  doc.rect(50, bannerY, 150, 90).strokeColor(colors.border).lineWidth(1).stroke();
   
   doc.fillColor(colors.lightDark)
      .font('Helvetica-Bold')
@@ -164,7 +164,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
      .fontSize(11)
      .text('Executive Summary (AI Insights)', 220, bannerY);
      
-  doc.moveTo(220, bannerY + 14).lineTo(545, bannerY + 14).strokeColor(colors.border).strokeWidth(0.5).stroke();
+  doc.moveTo(220, bannerY + 14).lineTo(545, bannerY + 14).strokeColor(colors.border).lineWidth(0.5).stroke();
   
   doc.fillColor(colors.lightDark)
      .font('Helvetica-Oblique')
@@ -179,7 +179,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
      .fontSize(11)
      .text('Key Operational Telemetry Metrics', 50, doc.y);
   
-  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.border).strokeWidth(0.5).stroke();
+  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.border).lineWidth(0.5).stroke();
   doc.y += 22;
 
   const metricsY = doc.y;
@@ -212,7 +212,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
      .font('Helvetica-Bold')
      .fontSize(11)
      .text('Delivery Rhythm & Cadence Analysis', 50, doc.y);
-  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.border).strokeWidth(0.5).stroke();
+  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.border).lineWidth(0.5).stroke();
   
   doc.fillColor(colors.lightDark)
      .font('Helvetica')
@@ -236,7 +236,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
      .font('Helvetica-Bold')
      .fontSize(11)
      .text('Team Contribution & Workload Distribution', 50, doc.y);
-  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.primary).strokeWidth(1.5).stroke();
+  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.primary).lineWidth(1.5).stroke();
   doc.y += 20;
 
   // Table Headers
@@ -287,7 +287,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
     doc.fillColor(statusCol).font('Helvetica-Bold').text(statusVal, 500, rowY + 4, { width: 40, align: 'center' });
 
     // Draw border line
-    doc.moveTo(50, rowY + 16).lineTo(545, rowY + 16).strokeColor(colors.border).strokeWidth(0.5).stroke();
+    doc.moveTo(50, rowY + 16).lineTo(545, rowY + 16).strokeColor(colors.border).lineWidth(0.5).stroke();
 
     doc.y = rowY + 16;
   });
@@ -299,7 +299,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
      .font('Helvetica-Bold')
      .fontSize(11)
      .text('Detected Team Operational Bottlenecks', 50, doc.y);
-  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.danger).strokeWidth(1).stroke();
+  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.danger).lineWidth(1).stroke();
   doc.y += 22;
 
   const bottleY = doc.y;
@@ -324,7 +324,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
      .font('Helvetica-Bold')
      .fontSize(11)
      .text('AI Strategic Engineering Recommendations', 50, doc.y);
-  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.success).strokeWidth(1).stroke();
+  doc.moveTo(50, doc.y + 14).lineTo(545, doc.y + 14).strokeColor(colors.success).lineWidth(1).stroke();
   doc.y += 22;
 
   aiReport.recommendations.forEach((r, index) => {
@@ -349,7 +349,7 @@ export const generatePdfReport = async (repoId, userId, res) => {
     doc.switchToPage(i);
     
     // Draw footer line
-    doc.moveTo(50, 800).lineTo(545, 800).strokeColor(colors.border).strokeWidth(0.5).stroke();
+    doc.moveTo(50, 800).lineTo(545, 800).strokeColor(colors.border).lineWidth(0.5).stroke();
     
     // Footer Brand Subtext
     doc.fillColor(colors.lightDark)
